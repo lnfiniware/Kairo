@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KairoDB - Human-Readable Databases</title>
+    <meta name="description" content="KairoDB is a terminal-first database abstraction system designed for humans. Minimal, fast, and local-first.">
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts for Ubuntu (Logo) -->
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&display=swap" rel="stylesheet">
+    <!-- Marked for Markdown Rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body class="light-mode">
+    <header>
+        <nav>
+            <div class="logo">
+                <span class="infiniware-logo"><span class="red-i">I</span>nfiniware</span>
+                <span class="divider">|</span>
+                <span class="app-name">KairoDB</span>
+            </div>
+            <div class="tabs">
+                <button class="tab-btn active" onclick="showTab('home')">Home</button>
+                <button class="tab-btn" onclick="showTab('wiki')">Wiki</button>
+                <button class="tab-btn" onclick="showTab('docs')">Docs</button>
+            </div>
+            <div class="theme-toggle">
+                <button id="mode-toggle" onclick="toggleTheme()">🌓</button>
+            </div>
+        </nav>
+        <div class="search-bar-container" id="search-container">
+            <input type="text" id="docs-search" placeholder="Search the Developer Portal..." oninput="handleSearch(this.value)">
+        </div>
+    </header>
+
+    <main id="content">
+        <!-- Home Content -->
+        <section id="home-tab" class="tab-content active">
+            <div class="hero">
+                <h1>Human-readable databases.</h1>
+                <p class="subtitle">Minimal. Fast. Local-first.</p>
+                <div class="cta-buttons">
+                    <a href="https://github.com/lnfiniware/kairo" class="btn primary">View on GitHub</a>
+                    <button class="btn secondary" onclick="showTab('docs')">Read the Docs</button>
+                </div>
+            </div>
+            <div class="features">
+                <div class="feature-card">
+                    <h3>Human-first</h3>
+                    <p>Code and schemas designed for people, not just machines.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Git-friendly</h3>
+                    <p>Version-control your data structures naturally with plain text.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Multi-backend</h3>
+                    <p>One schema for SQLite, PostgreSQL, and more.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Wiki Content -->
+        <section id="wiki-tab" class="tab-content">
+            <div class="wiki-container">
+                <aside class="wiki-sidebar" id="wiki-menu">
+                    <!-- Wiki menu will be loaded here -->
+                </aside>
+                <article class="wiki-article" id="wiki-body">
+                    <p>Loading Wiki...</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- Docs Content -->
+        <section id="docs-tab" class="tab-content">
+            <div class="docs-container">
+                <aside class="docs-sidebar">
+                    <ul id="docs-menu">
+                        <li onclick="loadDoc('Getting-Started')">Getting Started</li>
+                        <li onclick="loadDoc('Commands')">Commands</li>
+                        <li onclick="loadDoc('Schemas')">Schemas</li>
+                        <li onclick="loadDoc('Queries')">Queries</li>
+                        <li onclick="loadDoc('Philosophy')">Philosophy</li>
+                        <li onclick="loadDoc('Architecture')">Architecture</li>
+                    </ul>
+                </aside>
+                <article class="docs-article" id="docs-body">
+                    <p>Select a document to begin.</p>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>MADE BY <span class="infiniware-logo"><span class="red-i">I</span>NFINIWARE</span></p>
+            <p class="copyright">&copy; 2026. Licensed under GNU GPL 3.0.</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
