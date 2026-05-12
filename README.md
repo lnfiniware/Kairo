@@ -48,6 +48,10 @@ $ kairo query "SELECT * FROM users"
 
 GNU GPL 3.0
 
+## Support us
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/infiniware)
+
 ---
 
 MADE BY INFINIWARE
