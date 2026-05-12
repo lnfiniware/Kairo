@@ -42,9 +42,17 @@ $ kairo query "SELECT * FROM users"
 ## Branding
 
 *   **Website**: [https://kairo.infiniware.bid](https://kairo.infiniware.bid)
-*   **CLI Name**: `kairo` or `kairodb`
+*   **CLI Names**: `kairo` and `kairodb`
+*   **Version**: v0.2.0
 
-## License
+## Natural Query Language
+
+KairoDB v0.2 introduces the foundation of a natural query language. Instead of raw SQL, you can use more human-readable commands:
+
+```bash
+$ kairo query "from users where age > 18"
+```
+*Translated to: SELECT * FROM users where age > 18*
 
 GNU GPL 3.0
 

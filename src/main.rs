@@ -7,6 +7,7 @@ use clap::{Parser, Subcommand};
 use anyhow::{Result, anyhow};
 use crate::core::adapter::Adapter;
 use crate::adapters::sqlite::SqliteAdapter;
+use crate::adapters::postgres::PostgresAdapter;
 
 #[derive(Parser)]
 #[command(name = "kairo")]
@@ -50,39 +51,70 @@ async fn main() -> Result<()> {
             init_project()?;
         }
         Some(Commands::Create { name }) => {
-            let schema_path = format!("schema/{}.kairo", name);
+            let schema_path = std::path::PathBuf::from("schema").join(format!("{}.kairo", name));
             let content = std::fs::read_to_string(&schema_path)
-                .map_err(|_| anyhow!("Could not find schema file: {}. Create it in schema/ first.", schema_path))?;
+                .map_err(|_| anyhow!("Could not find schema file: {}. Create it in schema/ first.", schema_path.display()))?;
             
-            let schema = core::parser::parse_schema(&content)?;
+            // Strip BOM if present
+            let content = content.strip_prefix('\u{FEFF}').unwrap_or(&content);
+            
+            let schema = core::parser::parse_schema(content)?;
             let sql = core::schema::generate_sql(&schema);
             
             println!("Generated SQL for {}:\n\n{}", name, sql);
             
             let config = config::load_config().ok();
             if let Some(cfg) = config {
-                if cfg.adapter == "sqlite" {
-                    let mut adapter = SqliteAdapter::new();
-                    adapter.connect(&cfg.database).await?;
-                    adapter.execute(&sql).await?;
-                    ui::print_success(&format!("Applied schema for {} to {}", name, cfg.database));
-                }
+                let mut adapter: Box<dyn Adapter> = if cfg.adapter == "sqlite" {
+                    let mut a = SqliteAdapter::new();
+                    let conn_str = if cfg.database.starts_with("sqlite:") {
+                        cfg.database.clone()
+                    } else {
+                        format!("sqlite:{}?mode=rwc", cfg.database)
+                    };
+                    a.connect(&conn_str).await?;
+                    Box::new(a)
+                } else if cfg.adapter == "postgres" {
+                    let mut a = PostgresAdapter::new();
+                    a.connect(&cfg.database).await?;
+                    Box::new(a)
+                } else {
+                    return Err(anyhow!("Adapter '{}' not supported", cfg.adapter));
+                };
+
+                adapter.execute(&sql).await?;
+                ui::print_success(&format!("Applied schema for {} to {}", name, cfg.database));
             }
         }
         Some(Commands::Query { query }) => {
             let config = config::load_config().map_err(|_| anyhow!("Could not load kairo.config. Run 'kairo init' first."))?;
             
-            if config.adapter == "sqlite" {
-                let mut adapter = SqliteAdapter::new();
-                adapter.connect(&config.database).await?;
-                
-                let rows = adapter.query(query).await?;
-                for row in rows {
-                    let fields: Vec<String> = row.columns.iter().map(|c| format!("{}: {}", c.name, c.value)).collect();
-                    println!("{}", fields.join(" | "));
-                }
+            let mut adapter: Box<dyn Adapter> = if config.adapter == "sqlite" {
+                let mut a = SqliteAdapter::new();
+                let conn_str = if config.database.starts_with("sqlite:") {
+                    config.database.clone()
+                } else {
+                    format!("sqlite:{}?mode=rwc", config.database)
+                };
+                a.connect(&conn_str).await?;
+                Box::new(a)
+            } else if config.adapter == "postgres" {
+                let mut a = PostgresAdapter::new();
+                a.connect(&config.database).await?;
+                Box::new(a)
             } else {
-                return Err(anyhow!("Adapter '{}' not supported yet", config.adapter));
+                return Err(anyhow!("Adapter '{}' not supported", config.adapter));
+            };
+
+            let sql = core::query::translate_query(query);
+            if sql != *query {
+                println!("Translated to: {}", sql);
+            }
+
+            let rows = adapter.query(&sql).await?;
+            for row in rows {
+                let fields: Vec<String> = row.columns.iter().map(|c| format!("{}: {}", c.name, c.value)).collect();
+                println!("{}", fields.join(" | "));
             }
         }
         Some(Commands::Migrate) => {

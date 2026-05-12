@@ -1,11 +1,11 @@
-WHITESPACE = _{ " " | "\t" | "\r" | "\n" }
+WHITESPACE = _{ " " | "\t" | "\r" | "\n" | "," }
 COMMENT = _{ "//" ~ (!"\n" ~ ANY)* }
 
 schema = { SOI ~ table* ~ EOI }
 
 table = { "table" ~ ident ~ "{" ~ field* ~ "}" }
 
-field = { ident ~ ":" ~ type_name ~ ("=" ~ default_value)? }
+field = { ident ~ ":" ~ type_name ~ ("=" ~ default_value)? ~ (",")? }
 
 ident = @{ (ASCII_ALPHA | "_") ~ (ASCII_ALPHANUMERIC | "_")* }
 
