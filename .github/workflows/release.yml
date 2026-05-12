@@ -1,0 +1,34 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    name: Build - ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            artifact_name: kairo-linux
+            asset_name: kairo-linux
+          - os: windows-latest
+            artifact_name: kairo-windows.exe
+            asset_name: kairo-windows.exe
+          - os: macos-latest
+            artifact_name: kairo-macos
+            asset_name: kairo-macos
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build
+        run: cargo build --release --verbose
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: target/release/kairo${{ matrix.os == 'windows-latest' && '.exe' || '' }}
