@@ -145,33 +145,32 @@ async fn main() -> Result<()> {
             if rows.is_empty() {
                 ui::print_dim("(no tables)");
             } else {
+                ui::print_header("tables");
                 for row in &rows {
-                    println!("  {}", row.columns[0].value);
+                    ui::print_row("-", &row.columns[0].value);
                 }
             }
         }
 
         Some(Commands::Status) => {
-            println!("kairo v0.3.1\n");
+            ui::print_header("kairo v0.3.1");
 
             match config::load_config() {
                 Ok(cfg) => {
-                    println!("  adapter:  {}", cfg.adapter);
-                    println!("  database: {}", cfg.database);
+                    ui::print_row("adapter ", &cfg.adapter);
+                    ui::print_row("database", &cfg.database);
 
-                    // Count schema files
                     let schema_count = std::fs::read_dir("schema")
                         .map(|entries| entries.filter_map(|e| e.ok()).filter(|e| {
                             e.path().extension().map(|ext| ext == "kairo").unwrap_or(false)
                         }).count())
                         .unwrap_or(0);
 
-                    println!("  schemas:  {}", schema_count);
+                    ui::print_row("schemas ", &schema_count.to_string());
 
-                    // Check if db file exists
                     if cfg.adapter == "sqlite" {
                         let exists = std::path::Path::new(&cfg.database).exists();
-                        println!("  db file:  {}", if exists { "exists" } else { "not created yet" });
+                        ui::print_row("db file ", if exists { "exists" } else { "not created yet" });
                     }
                 }
                 Err(_) => {
