@@ -102,6 +102,7 @@ nav {
     font-size: 14px;
 }
 .red-i { color: var(--red); }
+.blue-db { color: var(--accent); }
 .nav-sep {
     color: var(--border);
     font-weight: 300;
