@@ -4,98 +4,158 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KairoDB - Human-Readable Databases</title>
-    <meta name="description" content="KairoDB is a terminal-first database abstraction system designed for humans. Minimal, fast, and local-first.">
+    <meta name="description" content="KairoDB is a terminal-first database abstraction system. Minimal, fast, local-first.">
+    <meta name="keywords" content="database, CLI, SQLite, PostgreSQL, schema, terminal, developer tools">
+    <link rel="canonical" href="https://kairo.infiniware.bid/">
     <link rel="stylesheet" href="style.css">
-    <!-- Google Fonts for Ubuntu (Logo) -->
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&display=swap" rel="stylesheet">
-    <!-- Marked for Markdown Rendering -->
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
-<body class="light-mode">
+<body>
     <header>
         <nav>
-            <div class="logo">
-                <span class="infiniware-logo"><span class="red-i">I</span>nfiniware</span>
-                <span class="divider">|</span>
-                <span class="app-name">KairoDB</span>
+            <div class="nav-left">
+                <a href="#" class="nav-logo" onclick="showTab('home')">
+                    <span class="infiniware-logo"><span class="red-i">I</span>nfiniware</span>
+                    <span class="nav-sep">|</span>
+                    <span class="nav-product">KairoDB</span>
+                </a>
+                <div class="nav-links">
+                    <a href="#" class="nav-link active" onclick="showTab('home')">Home</a>
+                    <a href="#" class="nav-link" onclick="showTab('docs')">Documentation</a>
+                    <a href="#" class="nav-link" onclick="showTab('wiki')">Wiki</a>
+                </div>
             </div>
-            <div class="tabs">
-                <button class="tab-btn active" onclick="showTab('home')">Home</button>
-                <button class="tab-btn" onclick="showTab('wiki')">Wiki</button>
-                <button class="tab-btn" onclick="showTab('docs')">Docs</button>
-            </div>
-            <div class="theme-toggle">
-                <button id="mode-toggle" onclick="toggleTheme()">Theme</button>
+            <div class="nav-right">
+                <a href="https://github.com/lnfiniware/kairo" class="nav-link">GitHub</a>
+                <button class="theme-btn" onclick="toggleTheme()">Dark</button>
             </div>
         </nav>
-        <div class="search-bar-container" id="search-container">
-            <input type="text" id="docs-search" placeholder="Search topics..." oninput="handleSearch(this.value)">
-        </div>
     </header>
 
-    <main id="content">
-        <!-- Home Content -->
+    <main>
+        <!-- HOME -->
         <section id="home-tab" class="tab-content active">
             <div class="hero">
-                <h1>Human-readable databases.</h1>
-                <p class="subtitle">Minimal. Fast. Local-first.</p>
-                <div class="cta-buttons">
-                    <a href="https://github.com/lnfiniware/kairo" class="btn primary">Source Code</a>
-                    <button class="btn secondary" onclick="showTab('docs')">Documentation</button>
+                <div class="hero-text">
+                    <p class="hero-label">KairoDB v0.3.1</p>
+                    <h1>Human-readable<br>databases.</h1>
+                    <p class="hero-sub">A terminal-first database layer that translates human-readable schemas into real databases. Read any .db file. Write schemas in plain text. No bloat.</p>
+                    <div class="hero-actions">
+                        <a href="https://github.com/lnfiniware/kairo/releases" class="btn-primary">Download</a>
+                        <a href="https://github.com/lnfiniware/kairo" class="btn-outline">Source code</a>
+                    </div>
                 </div>
             </div>
-            <div class="features">
-                <div class="feature-card">
-                    <h3>Hand-crafted</h3>
-                    <p>Built for clarity. No unnecessary abstractions or bloated layers.</p>
+
+            <div class="cards-section">
+                <div class="card">
+                    <h3>Read any database</h3>
+                    <p>Point kairo at any .db file and get a human-readable breakdown of every table, column, and row.</p>
+                    <code>kairo read myapp.db</code>
                 </div>
-                <div class="feature-card">
-                    <h3>Transparent</h3>
-                    <p>Version-control your data structure in plain text. Honest and simple.</p>
+                <div class="card">
+                    <h3>Schema in plain text</h3>
+                    <p>Define your tables in .kairo files. Version-control them. Apply them to SQLite or PostgreSQL.</p>
+                    <code>kairo create users</code>
                 </div>
-                <div class="feature-card">
-                    <h3>Agnostic</h3>
-                    <p>Use the same schema for SQLite and PostgreSQL. It just works.</p>
+                <div class="card">
+                    <h3>Query naturally</h3>
+                    <p>Write queries in a simpler syntax. Or use raw SQL. Both work.</p>
+                    <code>kairo query "from users"</code>
+                </div>
+            </div>
+
+            <div class="install-section">
+                <h2>Get started</h2>
+                <div class="install-steps">
+                    <div class="install-step">
+                        <span class="step-num">1</span>
+                        <div>
+                            <p class="step-title">Download the binary</p>
+                            <p class="step-desc">Grab the latest release for your OS from GitHub. No Rust required.</p>
+                        </div>
+                    </div>
+                    <div class="install-step">
+                        <span class="step-num">2</span>
+                        <div>
+                            <p class="step-title">Initialize a project</p>
+                            <p class="step-desc"><code>kairo init</code></p>
+                        </div>
+                    </div>
+                    <div class="install-step">
+                        <span class="step-num">3</span>
+                        <div>
+                            <p class="step-title">Write a schema and apply it</p>
+                            <p class="step-desc"><code>kairo create users</code></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Wiki Content -->
-        <section id="wiki-tab" class="tab-content">
-            <div class="wiki-container">
-                <aside class="wiki-sidebar" id="wiki-menu">
-                    <!-- Wiki menu will be loaded here -->
-                </aside>
-                <article class="wiki-article" id="wiki-body">
-                    <p>Loading Wiki...</p>
-                </article>
-            </div>
-        </section>
-
-        <!-- Docs Content -->
+        <!-- DOCS -->
         <section id="docs-tab" class="tab-content">
-            <div class="docs-container">
-                <aside class="docs-sidebar">
-                    <ul id="docs-menu">
-                        <li onclick="loadDoc('Getting-Started')">Getting Started</li>
-                        <li onclick="loadDoc('Commands')">Commands</li>
-                        <li onclick="loadDoc('Schemas')">Schemas</li>
-                        <li onclick="loadDoc('Queries')">Queries</li>
-                        <li onclick="loadDoc('Philosophy')">Philosophy</li>
-                        <li onclick="loadDoc('Architecture')">Architecture</li>
-                    </ul>
-                </aside>
-                <article class="docs-article" id="docs-body">
-                    <p>Select a document to begin.</p>
-                </article>
+            <div class="portal">
+                <div class="portal-search">
+                    <input type="text" id="portal-search-input" placeholder="Search documentation..." oninput="handleSearch(this.value)">
+                </div>
+                <div class="portal-layout">
+                    <aside class="portal-sidebar">
+                        <p class="sidebar-heading">Documentation</p>
+                        <ul id="docs-menu">
+                            <li class="sidebar-item" onclick="loadDoc('Getting-Started')">Getting Started</li>
+                            <li class="sidebar-item" onclick="loadDoc('Commands')">Commands</li>
+                            <li class="sidebar-item" onclick="loadDoc('Schemas')">Schemas</li>
+                            <li class="sidebar-item" onclick="loadDoc('Queries')">Queries</li>
+                            <li class="sidebar-item" onclick="loadDoc('Architecture')">Architecture</li>
+                            <li class="sidebar-item" onclick="loadDoc('Philosophy')">Philosophy</li>
+                        </ul>
+                    </aside>
+                    <article class="portal-body" id="docs-body">
+                        <p class="portal-placeholder">Select a topic from the sidebar.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- WIKI -->
+        <section id="wiki-tab" class="tab-content">
+            <div class="portal">
+                <div class="portal-search">
+                    <input type="text" placeholder="Search wiki..." oninput="handleWikiSearch(this.value)">
+                </div>
+                <div class="portal-layout">
+                    <aside class="portal-sidebar">
+                        <p class="sidebar-heading">Wiki</p>
+                        <ul id="wiki-menu">
+                            <li class="sidebar-item" onclick="loadWiki('Home')">Home</li>
+                            <li class="sidebar-item" onclick="loadWiki('Getting-Started')">Getting Started</li>
+                            <li class="sidebar-item" onclick="loadWiki('Commands')">Commands</li>
+                            <li class="sidebar-item" onclick="loadWiki('Schemas')">Schemas</li>
+                            <li class="sidebar-item" onclick="loadWiki('Queries')">Queries</li>
+                            <li class="sidebar-item" onclick="loadWiki('Philosophy')">Philosophy</li>
+                            <li class="sidebar-item" onclick="loadWiki('Architecture')">Architecture</li>
+                        </ul>
+                    </aside>
+                    <article class="portal-body" id="wiki-body">
+                        <p class="portal-placeholder">Select a page from the sidebar.</p>
+                    </article>
+                </div>
             </div>
         </section>
     </main>
 
     <footer>
-        <div class="footer-content">
-            <p><span class="infiniware-logo"><span class="red-i">I</span>NFINIWARE</span></p>
-            <p class="copyright">KairoDB v0.2.0 - Licensed under GNU GPL 3.0.</p>
+        <div class="footer-inner">
+            <div class="footer-left">
+                <span class="infiniware-logo"><span class="red-i">I</span>nfiniware</span>
+            </div>
+            <div class="footer-right">
+                <a href="https://github.com/lnfiniware/kairo">GitHub</a>
+                <a href="#" onclick="showTab('docs')">Docs</a>
+                <span class="footer-copy">GNU GPL 3.0</span>
+            </div>
         </div>
     </footer>
 
