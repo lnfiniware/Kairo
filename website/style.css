@@ -1,327 +1,406 @@
 /* Fonts */
 @font-face {
     font-family: 'Helvetica Neue';
-    src: url('helvetica-neue-5/HelveticaNeueRoman.otf') format('opentype');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Helvetica Neue';
-    src: url('helvetica-neue-5/HelveticaNeueBold.otf') format('opentype');
-    font-weight: bold;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Helvetica Neue';
     src: url('helvetica-neue-5/HelveticaNeueLight.otf') format('opentype');
     font-weight: 300;
     font-style: normal;
 }
+@font-face {
+    font-family: 'Helvetica Neue';
+    src: url('helvetica-neue-5/HelveticaNeueRoman.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Helvetica Neue';
+    src: url('helvetica-neue-5/HelveticaNeueMedium.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Helvetica Neue';
+    src: url('helvetica-neue-5/HelveticaNeueBold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+}
 
+/* Variables */
 :root {
-    --bg-color: #ffffff;
-    --card-bg: #ffffff;
-    --text-color: #000000;
-    --text-secondary: #505050;
-    --accent-color: #000000;
-    --border-color: #000000;
-    --nav-bg: #ffffff;
-    --red-brand: #ff0000;
-    --footer-bg: #ffffff;
+    --bg: #fff;
+    --bg-secondary: #f2f2f2;
+    --text: #1a1a1a;
+    --text-light: #616161;
+    --border: #e5e5e5;
+    --accent: #0067b8;
+    --red: #e81123;
+    --card-bg: #fff;
+    --code-bg: #f5f5f5;
+    --nav-bg: #fff;
+    --footer-bg: #f2f2f2;
+}
+body.dark {
+    --bg: #1b1b1b;
+    --bg-secondary: #2d2d2d;
+    --text: #e8e8e8;
+    --text-light: #999;
+    --border: #3a3a3a;
+    --accent: #4cc2ff;
+    --card-bg: #2d2d2d;
+    --code-bg: #333;
+    --nav-bg: #1b1b1b;
+    --footer-bg: #111;
 }
 
-.dark-mode {
-    --bg-color: #000000;
-    --card-bg: #000000;
-    --text-color: #ffffff;
-    --text-secondary: #a0a0a0;
-    --accent-color: #ffffff;
-    --border-color: #ffffff;
-    --nav-bg: #000000;
-    --footer-bg: #000000;
-}
-
-* {
+/* Reset */
+*, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    -webkit-font-smoothing: antialiased;
 }
 
 body {
-    font-family: 'Helvetica Neue', sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    transition: background-color 0.1s, color 0.1s;
-    line-height: 1.4;
+    font-family: 'Helvetica Neue', 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
 }
 
+/* NAV */
 header {
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 50;
     background: var(--nav-bg);
-    border-bottom: 2px solid var(--border-color);
+    border-bottom: 1px solid var(--border);
 }
-
 nav {
     max-width: 1200px;
     margin: 0 auto;
-    height: 70px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 20px;
+    height: 50px;
+    padding: 0 24px;
 }
-
-.logo {
+.nav-left {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 32px;
 }
-
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--text);
+}
 .infiniware-logo {
     font-family: 'Ubuntu', sans-serif;
     font-weight: 700;
-    font-size: 1.4rem;
-    letter-spacing: -0.5px;
-    text-transform: none;
+    font-size: 14px;
 }
-
-.red-i {
-    color: var(--red-brand);
+.red-i { color: var(--red); }
+.nav-sep {
+    color: var(--border);
+    font-weight: 300;
+    font-size: 18px;
 }
-
-.divider {
-    color: var(--border-color);
-    font-weight: bold;
+.nav-product {
+    font-weight: 700;
+    font-size: 14px;
 }
-
-.app-name {
-    font-weight: 800;
-    font-size: 1.3rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.tabs {
+.nav-links {
     display: flex;
+    gap: 24px;
+}
+.nav-link {
+    font-size: 13px;
+    color: var(--text-light);
+    text-decoration: none;
+    font-weight: 400;
+    transition: color 0.15s;
+}
+.nav-link:hover, .nav-link.active {
+    color: var(--text);
+}
+.nav-right {
+    display: flex;
+    align-items: center;
     gap: 20px;
 }
-
-.tab-btn {
+.theme-btn {
     background: none;
-    border: none;
-    color: var(--text-secondary);
-    font-size: 1rem;
-    font-family: inherit;
-    font-weight: 600;
-    cursor: pointer;
-    padding: 10px 0;
-    transition: color 0.1s;
-    text-transform: uppercase;
-}
-
-.tab-btn:hover, .tab-btn.active {
-    color: var(--text-color);
-    border-bottom: 3px solid var(--text-color);
-}
-
-.theme-toggle button {
-    background: var(--text-color);
-    color: var(--bg-color);
-    border: none;
-    font-size: 0.8rem;
-    padding: 8px 15px;
-    font-weight: bold;
+    border: 1px solid var(--border);
+    color: var(--text-light);
+    font-size: 12px;
+    padding: 4px 12px;
     cursor: pointer;
     font-family: inherit;
-    text-transform: uppercase;
 }
 
-.search-bar-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 15px 20px;
-    display: none;
-    border-bottom: 1px solid var(--border-color);
-}
-
-#docs-search {
-    width: 100%;
-    padding: 12px;
-    border: 2px solid var(--border-color);
-    background: var(--card-bg);
-    color: var(--text-color);
-    font-family: inherit;
-    font-size: 1rem;
-    outline: none;
-}
-
+/* MAIN */
 main {
     max-width: 1200px;
     margin: 0 auto;
-    min-height: calc(100vh - 200px);
-    padding: 60px 20px;
+    padding: 0 24px;
+    min-height: 70vh;
 }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
 
-.tab-content {
-    display: none;
-}
-
-.tab-content.active {
-    display: block;
-}
-
-/* Home Styles */
+/* HERO */
 .hero {
-    text-align: left;
-    padding: 40px 0 80px 0;
-    border-bottom: 2px solid var(--border-color);
+    padding: 80px 0 60px;
+    border-bottom: 1px solid var(--border);
 }
-
+.hero-label {
+    font-size: 12px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+    font-weight: 500;
+}
 .hero h1 {
-    font-size: 5rem;
-    font-weight: 900;
-    line-height: 1;
-    text-transform: uppercase;
+    font-size: 44px;
+    font-weight: 700;
+    line-height: 1.15;
     margin-bottom: 20px;
+    letter-spacing: -0.5px;
 }
-
-.hero .subtitle {
-    font-size: 1.8rem;
-    font-weight: 400;
-    color: var(--text-secondary);
-    margin-bottom: 40px;
+.hero-sub {
+    font-size: 16px;
+    color: var(--text-light);
+    max-width: 520px;
+    margin-bottom: 32px;
+    line-height: 1.6;
 }
-
-.cta-buttons {
+.hero-actions {
     display: flex;
-    gap: 15px;
+    gap: 12px;
 }
 
-.btn {
-    padding: 15px 35px;
-    font-size: 1rem;
+/* Buttons */
+.btn-primary {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    padding: 10px 24px;
+    font-size: 14px;
+    font-weight: 600;
     text-decoration: none;
-    font-weight: 800;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: background 0.1s;
-}
-
-.btn.primary {
-    background: var(--text-color);
-    color: var(--bg-color);
     border: none;
+    cursor: pointer;
+    font-family: inherit;
 }
-
-.btn.secondary {
+.btn-primary:hover { opacity: 0.9; }
+.btn-outline {
+    display: inline-block;
     background: none;
-    color: var(--text-color);
-    border: 2px solid var(--text-color);
+    color: var(--text);
+    padding: 10px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    font-family: inherit;
 }
+.btn-outline:hover { border-color: var(--text-light); }
 
-.features {
+/* Cards */
+.cards-section {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
-    background: var(--border-color);
+    gap: 1px;
+    background: var(--border);
     margin-top: 0;
-    border: 2px solid var(--border-color);
 }
-
-.feature-card {
+.card {
     background: var(--card-bg);
-    padding: 40px;
+    padding: 40px 32px;
+}
+.card h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+.card p {
+    font-size: 14px;
+    color: var(--text-light);
+    margin-bottom: 16px;
+    line-height: 1.5;
+}
+.card code {
+    display: inline-block;
+    background: var(--code-bg);
+    padding: 6px 12px;
+    font-size: 13px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    color: var(--text);
 }
 
-.feature-card h3 {
-    font-size: 1.5rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    margin-bottom: 20px;
+/* Install */
+.install-section {
+    padding: 60px 0;
+}
+.install-section h2 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 32px;
+}
+.install-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+.install-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+.step-num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--border);
+    font-size: 14px;
+    font-weight: 600;
+    flex-shrink: 0;
+    color: var(--text-light);
+}
+.step-title {
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 4px;
+}
+.step-desc {
+    font-size: 14px;
+    color: var(--text-light);
+}
+.step-desc code {
+    background: var(--code-bg);
+    padding: 2px 8px;
+    font-family: 'Consolas', monospace;
+    font-size: 13px;
 }
 
-.feature-card p {
-    font-size: 1rem;
-    color: var(--text-secondary);
+/* Portal (Docs + Wiki shared) */
+.portal {
+    padding: 40px 0;
 }
-
-/* Wiki/Docs Styles - Developer Portal */
-.wiki-container, .docs-container {
+.portal-search {
+    margin-bottom: 24px;
+}
+.portal-search input {
+    width: 100%;
+    padding: 10px 16px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+}
+.portal-search input:focus {
+    border-color: var(--accent);
+}
+.portal-layout {
     display: grid;
-    grid-template-columns: 300px 1fr;
-    gap: 0;
-    border: 2px solid var(--border-color);
+    grid-template-columns: 220px 1fr;
+    gap: 40px;
+    min-height: 400px;
 }
-
-.wiki-sidebar, .docs-sidebar {
-    border-right: 2px solid var(--border-color);
-    padding: 30px;
-    background: var(--bg-color);
+.portal-sidebar {
+    border-right: 1px solid var(--border);
+    padding-right: 24px;
 }
-
-.docs-sidebar ul {
+.sidebar-heading {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-light);
+    margin-bottom: 16px;
+    font-weight: 600;
+}
+.sidebar-item {
     list-style: none;
-}
-
-.docs-sidebar li {
-    padding: 10px 0;
-    color: var(--text-secondary);
+    padding: 8px 0;
+    font-size: 14px;
+    color: var(--text-light);
     cursor: pointer;
-    transition: color 0.2s;
-    font-size: 0.95rem;
+    border-left: 2px solid transparent;
+    padding-left: 12px;
+    transition: color 0.1s, border-color 0.1s;
 }
-
-.docs-sidebar li:hover {
-    color: var(--accent-color);
+.sidebar-item:hover {
+    color: var(--text);
 }
-
-.wiki-article, .docs-article {
-    font-size: 1.1rem;
-    max-width: 800px;
+.sidebar-item.active {
+    color: var(--accent);
+    border-left-color: var(--accent);
+    font-weight: 500;
 }
-
-.wiki-article h1, .docs-article h1 { margin-bottom: 20px; font-size: 2.2rem; }
-.wiki-article h2, .docs-article h2 { margin-top: 30px; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
-.wiki-article p, .docs-article p { margin-bottom: 20px; color: var(--text-color); }
-.wiki-article code, .docs-article code { background: var(--footer-bg); padding: 2px 6px; border-radius: 4px; font-family: monospace; }
-.wiki-article pre, .docs-article pre { background: var(--footer-bg); padding: 20px; border-radius: 12px; overflow-x: auto; margin-bottom: 20px; }
+.portal-body {
+    max-width: 720px;
+}
+.portal-body h1 { font-size: 28px; font-weight: 700; margin-bottom: 16px; }
+.portal-body h2 { font-size: 20px; font-weight: 600; margin-top: 32px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+.portal-body h3 { font-size: 16px; font-weight: 600; margin-top: 24px; margin-bottom: 8px; }
+.portal-body p { margin-bottom: 16px; color: var(--text); font-size: 15px; line-height: 1.7; }
+.portal-body ul, .portal-body ol { margin-bottom: 16px; padding-left: 24px; }
+.portal-body li { margin-bottom: 6px; font-size: 14px; color: var(--text); }
+.portal-body code { background: var(--code-bg); padding: 2px 6px; font-family: 'Consolas', monospace; font-size: 13px; }
+.portal-body pre { background: var(--code-bg); padding: 16px 20px; overflow-x: auto; margin-bottom: 20px; font-size: 13px; line-height: 1.5; }
+.portal-body pre code { background: none; padding: 0; }
+.portal-placeholder { color: var(--text-light); font-size: 14px; }
 
 /* Footer */
 footer {
+    border-top: 1px solid var(--border);
     background: var(--footer-bg);
-    border-top: 1px solid var(--border-color);
-    padding: 40px 20px;
+    padding: 24px 0;
     margin-top: 60px;
 }
-
-.footer-content {
+.footer-inner {
     max-width: 1200px;
     margin: 0 auto;
+    padding: 0 24px;
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    gap: 10px;
+}
+.footer-left .infiniware-logo {
+    font-size: 13px;
+}
+.footer-right {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+.footer-right a {
+    font-size: 12px;
+    color: var(--text-light);
+    text-decoration: none;
+}
+.footer-right a:hover { color: var(--text); }
+.footer-copy {
+    font-size: 12px;
+    color: var(--text-light);
 }
 
-.footer-content .infiniware-logo {
-    font-size: 1rem;
-    text-transform: uppercase;
-}
-
-.copyright {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-}
-
-/* Mobile Responsive */
+/* Mobile */
 @media (max-width: 768px) {
-    nav { height: auto; padding: 15px 20px; flex-direction: column; gap: 15px; }
-    .hero h1 { font-size: 2.5rem; }
-    .wiki-container, .docs-container { grid-template-columns: 1fr; }
-    .wiki-sidebar, .docs-sidebar { border-right: none; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+    nav { height: auto; padding: 12px 16px; flex-wrap: wrap; gap: 8px; }
+    .nav-links { gap: 16px; }
+    .hero h1 { font-size: 28px; }
+    .hero { padding: 40px 0 32px; }
+    .cards-section { grid-template-columns: 1fr; }
+    .portal-layout { grid-template-columns: 1fr; }
+    .portal-sidebar { border-right: none; border-bottom: 1px solid var(--border); padding-right: 0; padding-bottom: 16px; }
+    .footer-inner { flex-direction: column; gap: 12px; text-align: center; }
 }

@@ -1,94 +1,71 @@
-const GITHUB_RAW_URL = "https://raw.githubusercontent.com/lnfiniware/Kairo/master/docs/wiki/";
+const WIKI_BASE = "https://raw.githubusercontent.com/lnfiniware/Kairo/master/docs/wiki/";
 
-function showTab(tabName) {
-    // Update buttons
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.innerText.toLowerCase() === tabName) btn.classList.add('active');
+function showTab(name) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.getElementById(name + '-tab').classList.add('active');
+
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+        const text = link.textContent.toLowerCase();
+        if (text === name || (name === 'docs' && text === 'documentation')) {
+            link.classList.add('active');
+        }
     });
 
-    // Update content
-    document.querySelectorAll('.tab-content').forEach(content => {
-        content.classList.remove('active');
-    });
-    document.getElementById(`${tabName}-tab`).classList.add('active');
-
-    // Show/Hide Search
-    const searchContainer = document.getElementById('search-container');
-    if (tabName === 'docs' || tabName === 'wiki') {
-        searchContainer.style.display = 'block';
-    } else {
-        searchContainer.style.display = 'none';
-    }
-
-    // Load initial content for Wiki/Docs if empty
-    if (tabName === 'docs' && document.getElementById('docs-body').innerText.includes('Select')) {
+    if (name === 'docs' && document.getElementById('docs-body').querySelector('.portal-placeholder')) {
         loadDoc('Getting-Started');
     }
-    if (tabName === 'wiki' && document.getElementById('wiki-body').innerText.includes('Loading')) {
+    if (name === 'wiki' && document.getElementById('wiki-body').querySelector('.portal-placeholder')) {
         loadWiki('Home');
     }
 }
 
-async function loadMarkdown(filename, targetId) {
+async function fetchMarkdown(filename, targetId) {
     const target = document.getElementById(targetId);
-    target.innerHTML = `<p class="loading">Fetching ${filename}...</p>`;
-
+    target.innerHTML = '<p style="color:var(--text-light)">Loading...</p>';
     try {
-        const response = await fetch(`${GITHUB_RAW_URL}${filename}.md`);
-        if (!response.ok) throw new Error("File not found");
-        const markdown = await response.text();
-        target.innerHTML = marked.parse(markdown);
-    } catch (err) {
-        target.innerHTML = `<p class="error">Error loading ${filename}. Please try again later.</p>`;
+        const res = await fetch(WIKI_BASE + filename + '.md');
+        if (!res.ok) throw new Error('not found');
+        const md = await res.text();
+        target.innerHTML = marked.parse(md);
+    } catch (e) {
+        target.innerHTML = '<p style="color:var(--text-light)">Could not load ' + filename + '.</p>';
     }
 }
 
 function loadDoc(name) {
-    loadMarkdown(name, 'docs-body');
-    // Highlight active menu item
-    document.querySelectorAll('.docs-sidebar li').forEach(li => {
-        li.style.color = 'var(--text-secondary)';
-        li.style.fontWeight = 'normal';
-        if (li.innerText.replace(' ', '-') === name) {
-            li.style.color = 'var(--accent-color)';
-            li.style.fontWeight = 'bold';
-        }
+    fetchMarkdown(name, 'docs-body');
+    document.querySelectorAll('#docs-menu .sidebar-item').forEach(li => {
+        li.classList.remove('active');
+        if (li.textContent.replace(/ /g, '-') === name) li.classList.add('active');
     });
 }
 
 function loadWiki(name) {
-    loadMarkdown(name, 'wiki-body');
+    fetchMarkdown(name, 'wiki-body');
+    document.querySelectorAll('#wiki-menu .sidebar-item').forEach(li => {
+        li.classList.remove('active');
+        if (li.textContent.replace(/ /g, '-') === name || li.textContent === name) li.classList.add('active');
+    });
 }
 
 function toggleTheme() {
     const body = document.body;
-    if (body.classList.contains('light-mode')) {
-        body.classList.remove('light-mode');
-        body.classList.add('dark-mode');
-    } else {
-        body.classList.remove('dark-mode');
-        body.classList.add('light-mode');
-    }
+    const btn = document.querySelector('.theme-btn');
+    body.classList.toggle('dark');
+    btn.textContent = body.classList.contains('dark') ? 'Light' : 'Dark';
 }
 
 function handleSearch(val) {
-    const query = val.toLowerCase();
-    const activeTab = document.querySelector('.tab-content.active').id;
-    
-    if (activeTab === 'docs-tab') {
-        const items = document.querySelectorAll('.docs-sidebar li');
-        items.forEach(item => {
-            const text = item.innerText.toLowerCase();
-            item.style.display = text.includes(query) ? 'block' : 'none';
-        });
-    }
+    const q = val.toLowerCase();
+    document.querySelectorAll('#docs-menu .sidebar-item').forEach(li => {
+        li.style.display = li.textContent.toLowerCase().includes(q) ? '' : 'none';
+    });
 }
 
-// Initialize with Home
-window.onload = () => {
-    // Check system preference
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        toggleTheme();
-    }
-};
+function handleWikiSearch(val) {
+    const q = val.toLowerCase();
+    document.querySelectorAll('#wiki-menu .sidebar-item').forEach(li => {
+        li.style.display = li.textContent.toLowerCase().includes(q) ? '' : 'none';
+    });
+}

@@ -1,18 +1,16 @@
 # Welcome to the KairoDB Wiki
 
-KairoDB is a terminal-first database abstraction system.
+KairoDB is a terminal-first database tool. It reads, writes, and manages databases using plain text.
 
-## v0.2.0 "The First Leap"
-We are currently in the early stages of KairoDB. This version introduces the foundation of the Natural Query language and multi-binary support.
+## v0.3.1
 
-## Documentation Pages
+This version adds the ability to read and export any existing database file into human-readable format.
 
-*   [Philosophy](Philosophy)
-*   [Architecture](Architecture)
-*   [Getting Started](Getting-Started)
-*   [Commands](Commands)
-*   [Schema Syntax](Schemas)
-*   [Query Language](Queries)
+## Pages
 
----
-MADE BY INFINIWARE
+- [Getting Started](Getting-Started)
+- [Commands](Commands)
+- [Schema Syntax](Schemas)
+- [Query Language](Queries)
+- [Architecture](Architecture)
+- [Philosophy](Philosophy)

@@ -1,34 +1,46 @@
 # KairoDB Commands
 
-KairoDB provides a minimal set of commands to manage your databases.
-
 ## `init`
-Initializes a new KairoDB project in the current directory.
-```bash
+Set up a new KairoDB project in the current directory.
+```
 kairo init
 ```
+Creates: `schema/`, `data/`, `migrations/`, `queries/`, `plugins/`, and `kairo.config`.
 
 ## `create <name>`
-Reads the schema file `schema/<name>.kairo`, generates the SQL, and applies it to the configured database.
-```bash
+Reads `schema/<name>.kairo`, generates SQL, and applies it to the configured database.
+```
 kairo create users
 ```
 
-## `query "<query>"`
-Executes a query against the database. Supports both raw SQL and Kairo's Natural Query syntax.
-```bash
-# Natural Query
-kairo query "from users where age > 18"
-
-# Raw SQL
-kairo query "SELECT * FROM users LIMIT 5"
+## `query <sql>`
+Runs a query against the database. Supports natural syntax and raw SQL.
+```
+kairo query "from users"
+kairo query "SELECT * FROM users WHERE age > 18"
 ```
 
-## `migrate`
-(Coming Soon) Manages database migrations across different environments.
+## `read <file>`
+Reads any SQLite database file and prints a human-readable breakdown of its structure and data.
+```
+kairo read myapp.db
+```
 
-## `dev`
-(Coming Soon) Starts a development environment with live-reloading.
+## `export <file>`
+Converts a database file into .kairo schema format. Optionally writes to a file.
+```
+kairo export myapp.db
+kairo export myapp.db -o schema/imported.kairo
+```
 
-## `plugin`
-(Coming Soon) Extends KairoDB with custom adapters and features.
+## `tables`
+Lists all tables in the current project database.
+```
+kairo tables
+```
+
+## `status`
+Shows current project configuration and stats.
+```
+kairo status
+```
