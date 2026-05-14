@@ -243,6 +243,66 @@ main {
     color: var(--text);
 }
 
+/* Showcase */
+.showcase {
+    padding: 80px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+}
+.showcase-item {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+}
+.showcase-item.reverse {
+    flex-direction: row-reverse;
+}
+.showcase-text {
+    flex: 1;
+}
+.showcase-text h2 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
+}
+.showcase-text p {
+    font-size: 16px;
+    color: var(--text-light);
+    margin-bottom: 24px;
+    line-height: 1.6;
+}
+.showcase-text code {
+    background: var(--code-bg);
+    padding: 2px 8px;
+    font-family: 'Consolas', monospace;
+    font-size: 14px;
+    color: var(--text);
+}
+.showcase-img {
+    flex: 1;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--code-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.showcase-img img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 2px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+body.dark .showcase-img img {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
 /* Install */
 .install-section {
     padding: 60px 0;
@@ -404,4 +464,5 @@ footer {
     .portal-layout { grid-template-columns: 1fr; }
     .portal-sidebar { border-right: none; border-bottom: 1px solid var(--border); padding-right: 0; padding-bottom: 16px; }
     .footer-inner { flex-direction: column; gap: 12px; text-align: center; }
+    .showcase-item, .showcase-item.reverse { flex-direction: column; gap: 32px; }
 }
