@@ -6,39 +6,84 @@ pub fn init() {
     colored::control::set_virtual_terminal(true).ok();
 }
 
+const W: usize = 46;
+
+fn line(content: &str, blue: Color) -> String {
+    let pad = if content.len() < W { W - content.len() } else { 0 };
+    format!("  {} {}{} {}",
+        "║".color(blue),
+        content,
+        " ".repeat(pad),
+        "║".color(blue))
+}
+
+fn line_colored(visible_len: usize, colored_content: String, blue: Color) -> String {
+    let pad = if visible_len < W { W - visible_len } else { 0 };
+    format!("  {} {}{} {}",
+        "║".color(blue),
+        colored_content,
+        " ".repeat(pad),
+        "║".color(blue))
+}
+
 pub fn print_welcome() {
     init();
 
     let blue = Color::TrueColor { r: 60, g: 120, b: 216 };
     let gray = Color::TrueColor { r: 120, g: 120, b: 120 };
-    let red = Color::TrueColor { r: 220, g: 40, b: 40 };
+    let red  = Color::TrueColor { r: 220, g: 40, b: 40 };
 
-    let top    = format!("  {}{}{}",  "╔".color(blue), "══════════════════════════════════════════════╗".color(blue), "");
-    let sep    = format!("  {}{}{}",  "╠".color(blue), "══════════════════════════════════════════════╣".color(blue), "");
-    let bottom = format!("  {}{}{}",  "╚".color(blue), "══════════════════════════════════════════════╝".color(blue), "");
-    let side_l = "║".color(blue);
-    let side_r = "║".color(blue);
+    let bar_top = format!("  {}{}{}", "╔".color(blue), "═".repeat(W + 2).color(blue), "╗".color(blue));
+    let bar_mid = format!("  {}{}{}", "╠".color(blue), "═".repeat(W + 2).color(blue), "╣".color(blue));
+    let bar_bot = format!("  {}{}{}", "╚".color(blue), "═".repeat(W + 2).color(blue), "╝".color(blue));
+    let blank   = line("", blue);
 
     println!();
-    println!("{}", top);
-    println!("  {}  {}{}                                    {}", side_l, "KAIRO".bold().white(), "DB".color(blue).bold(), side_r);
-    println!("  {}  {}                          {}", side_l, "human-readable databases".color(gray), side_r);
-    println!("{}", sep);
-    println!("  {}                                                {}", side_l, side_r);
-    println!("  {}  {}                                  {}", side_l, "COMMANDS".color(gray).bold(), side_r);
-    println!("  {}                                                {}", side_l, side_r);
-    println!("  {}   {} {}          {}", side_l, "init".white().bold(), "set up a new project".color(gray), side_r);
-    println!("  {}   {} {}    {}", side_l, "create".white().bold(), "apply a .kairo schema".color(gray), side_r);
-    println!("  {}   {} {}     {}", side_l, "query".white().bold(), "run a database query".color(gray), side_r);
-    println!("  {}   {} {}      {}", side_l, "read".white().bold(), "inspect a database file".color(gray), side_r);
-    println!("  {}   {} {}    {}", side_l, "export".white().bold(), "convert db to .kairo".color(gray), side_r);
-    println!("  {}   {} {}    {}", side_l, "tables".white().bold(), "list all tables".color(gray), side_r);
-    println!("  {}   {} {}    {}", side_l, "status".white().bold(), "show project info".color(gray), side_r);
-    println!("  {}                                                {}", side_l, side_r);
-    println!("{}", sep);
-    println!("  {}  {}                  {}", side_l, "kairo.infiniware.bid".color(blue), side_r);
-    println!("  {}  {} {}                       {}", side_l, "made by".color(gray), format!("{}{}","I".color(red).bold(), "NFINIWARE".white().bold()), side_r);
-    println!("{}", bottom);
+    println!("{}", bar_top);
+
+    // Title
+    let title = format!("{}{}", "KAIRO".bold().white(), "DB".color(blue).bold());
+    println!("{}", line_colored(7, title, blue));
+
+    let sub = format!("{}", "human-readable databases".color(gray));
+    println!("{}", line_colored(24, sub, blue));
+
+    println!("{}", bar_mid);
+    println!("{}", blank);
+
+    // Commands header
+    let hdr = format!("{}", "COMMANDS".color(gray).bold());
+    println!("{}", line_colored(8, hdr, blue));
+    println!("{}", blank);
+
+    // Command rows
+    let cmds = [
+        ("init",   "set up a new project"),
+        ("create", "apply a .kairo schema"),
+        ("query",  "run a database query"),
+        ("read",   "inspect a database file"),
+        ("export", "convert db to .kairo"),
+        ("tables", "list all tables"),
+        ("status", "show project info"),
+    ];
+
+    for (cmd, desc) in &cmds {
+        let colored = format!("{} {}", format!("{:<8}", cmd).bold().white(), desc.color(gray));
+        let visible = format!("{:<8} {}", cmd, desc);
+        println!("{}", line_colored(visible.len(), colored, blue));
+    }
+
+    println!("{}", blank);
+    println!("{}", bar_mid);
+
+    // Footer
+    let url = format!("{}", "kairo.infiniware.bid".color(blue));
+    println!("{}", line_colored(19, url, blue));
+
+    let brand = format!("{} {}{}", "made by".color(gray), "I".color(red).bold(), "NFINIWARE".white().bold());
+    println!("{}", line_colored(17, brand, blue));
+
+    println!("{}", bar_bot);
     println!();
 }
 
