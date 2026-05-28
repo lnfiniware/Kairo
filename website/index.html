@@ -4,48 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KairoDB - Human-Readable Databases</title>
-    <meta name="description" content="KairoDB is a terminal-first database abstraction layer. Compile readable schemas, inspect files, and run queries naturally.">
+    <meta name="description" content="KairoDB is a terminal-first database tool. Define schemas in plain text, compile them to SQLite or PostgreSQL, and read any database file.">
     <meta name="keywords" content="database, CLI, SQLite, PostgreSQL, schema, terminal, developer tools, Rust">
     <link rel="canonical" href="https://kairo.infiniware.bid/">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2338bdf8' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cellipse cx='12' cy='5' rx='7' ry='2.5'/%3E%3Cpath d='M5 5v5c0 1.38 3.13 2.5 7 2.5s7-1.12 7-2.5V5'/%3E%3Cpath d='M5 10v5c0 1.38 3.13 2.5 7 2.5s7-1.12 7-2.5v-5'/%3E%3Cpath d='M5 15v4c0 1.38 3.13 2.5 7 2.5s7-1.12 7-2.5v-4'/%3E%3C/svg%3E">
     <link rel="stylesheet" href="style.css">
-    <!-- Google Fonts for elevated developer aesthetics -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Ubuntu:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body class="dark">
-    <!-- Ambient geometric layout mesh -->
-    <div class="mesh-grid"></div>
-
     <header>
         <nav>
             <div class="nav-left">
                 <a href="#" class="nav-logo" onclick="showTab('home')">
-                    <!-- Modern Minimalist database & cli outline SVG logo -->
-                    <div class="logo-wrap">
-                        <svg class="kairo-logo-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                            <ellipse cx="12" cy="5" rx="7" ry="2.5" stroke="var(--accent)"/>
-                            <path d="M5 5v5c0 1.38 3.13 2.5 7 2.5s7-1.12 7-2.5V5" stroke="var(--accent)"/>
-                            <path d="M5 10v5c0 1.38 3.13 2.5 7 2.5s7-1.12 7-2.5v-5" stroke="var(--accent)"/>
-                            <path d="M5 15v4c0 1.38 3.13 2.5 7 2.5s7-1.12 7-2.5v-4" stroke="var(--accent)"/>
-                            <path d="M12 13.5l1.5 1.5-1.5 1.5" stroke="#e81123" stroke-width="2" class="logo-spark"/>
-                        </svg>
-                    </div>
+                    <svg class="logo-svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <ellipse cx="12" cy="5" rx="7" ry="2.5"/>
+                        <path d="M5 5v5c0 1.38 3.13 2.5 7 2.5s7-1.12 7-2.5V5"/>
+                        <path d="M5 10v5c0 1.38 3.13 2.5 7 2.5s7-1.12 7-2.5v-5"/>
+                        <path d="M5 15v4c0 1.38 3.13 2.5 7 2.5s7-1.12 7-2.5v-4"/>
+                    </svg>
                     <span class="nav-sep">|</span>
                     <span class="nav-product">Kairo<span class="blue-db">DB</span></span>
-                    <span class="nav-tagline">- Human-Readable Databases</span>
+                    <span class="nav-tagline">Human-Readable Databases</span>
                 </a>
                 <div class="nav-links">
                     <a href="#" class="nav-link active" onclick="showTab('home')">Home</a>
-                    <a href="#" class="nav-link" onclick="showTab('docs')">Documentation</a>
                     <a href="#" class="nav-link" onclick="showTab('wiki')">Wiki</a>
                 </div>
             </div>
             <div class="nav-right">
                 <a href="https://github.com/lnfiniware/kairo" class="btn-github" target="_blank">
-                    <svg class="github-svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                    <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor">
                         <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.11.82-.26.82-.577v-2.234c-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.43.372.82 1.102.82 2.222v3.293c0 .319.22.694.825.576C20.565 21.795 24 17.3 24 12c0-6.63-5.37-12-12-12z"/>
                     </svg>
-                    <span>GitHub</span>
+                    GitHub
                 </a>
                 <button class="theme-btn" onclick="toggleTheme()">Light</button>
             </div>
@@ -53,400 +45,225 @@
     </header>
 
     <main>
-        <!-- HOME TAB -->
-        <section id="home-tab" class="tab-content active animate-fade">
+        <!-- HOME -->
+        <section id="home-tab" class="tab-content active">
             <div class="hero">
-                <div class="hero-content">
-                    <div class="hero-left">
-                        <p class="hero-label">Kairo<span class="blue-db">DB</span> v0.4.0 <span class="neon-badge">Stable</span></p>
-                        <h1>
-                            <span id="hero-typewriter">Human-readable databases.</span>
-                        </h1>
-                        <p class="hero-sub">A minimal database layer translating plain-text schemas into robust SQLite or PostgreSQL storage. Fast Rust engine. No complex ORM layers. Fully local-first.</p>
-                        <div class="hero-actions">
-                            <a href="https://github.com/lnfiniware/kairo/releases" class="btn-primary">Download v0.4.0</a>
-                            <a href="https://github.com/lnfiniware/kairo" class="btn-outline">Source Code</a>
-                        </div>
-                    </div>
-                    <div class="hero-right">
-                        <!-- Abstract Outline Technical SVG Relation Node Diagram -->
-                        <div class="tech-canvas-wrap">
-                            <svg class="nodes-svg" viewBox="0 0 320 240" fill="none">
-                                <path d="M 20,40 L 300,40" stroke="rgba(56, 189, 248, 0.05)" stroke-width="1"/>
-                                <path d="M 20,120 L 300,120" stroke="rgba(56, 189, 248, 0.05)" stroke-width="1"/>
-                                <path d="M 20,200 L 300,200" stroke="rgba(56, 189, 248, 0.05)" stroke-width="1"/>
-                                <path d="M 60,10 L 60,230" stroke="rgba(56, 189, 248, 0.05)" stroke-width="1"/>
-                                <path d="M 160,10 L 160,230" stroke="rgba(56, 189, 248, 0.05)" stroke-width="1"/>
-                                <path d="M 260,10 L 260,230" stroke="rgba(56, 189, 248, 0.05)" stroke-width="1"/>
-                                
-                                <path class="pulse-line" d="M 60,40 Q 160,120 260,40" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="5,3"/>
-                                <path class="pulse-line-delay" d="M 60,200 Q 160,120 260,200" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="5,3"/>
-                                <line x1="160" y1="40" x2="160" y2="200" stroke="rgba(56, 189, 248, 0.15)" stroke-width="1" />
-
-                                <circle cx="60" cy="40" r="5" fill="var(--bg)" stroke="var(--accent)" stroke-width="2"/>
-                                <circle cx="260" cy="40" r="5" fill="var(--bg)" stroke="var(--accent)" stroke-width="2"/>
-                                <circle cx="160" cy="120" r="7" fill="var(--bg)" stroke="#e81123" stroke-width="2" class="sparkle-circle"/>
-                                <circle cx="60" cy="200" r="5" fill="var(--bg)" stroke="var(--accent)" stroke-width="2"/>
-                                <circle cx="260" cy="200" r="5" fill="var(--bg)" stroke="var(--accent)" stroke-width="2"/>
-
-                                <text x="72" y="44" fill="var(--text-light)" font-family="JetBrains Mono" font-size="9">schema.kairo</text>
-                                <text x="172" y="124" fill="var(--accent)" font-family="JetBrains Mono" font-size="9" font-weight="bold">kairo-engine</text>
-                                <text x="202" y="196" fill="var(--text-light)" font-family="JetBrains Mono" font-size="9">sqlite.db</text>
-                                <text x="72" y="204" fill="var(--text-light)" font-family="JetBrains Mono" font-size="9">postgresql://</text>
-                            </svg>
-                        </div>
+                <div class="hero-text">
+                    <p class="hero-label">Kairo<span class="blue-db">DB</span> v0.4.0</p>
+                    <h1 id="hero-typewriter">Human-readable databases.</h1>
+                    <p class="hero-sub">Define database schemas in plain text. Compile them into real SQLite or PostgreSQL databases. Read any existing .db file and get a clean breakdown of every table, column, and row. No ORM. No bloat. Just your terminal and your data.</p>
+                    <div class="hero-actions">
+                        <a href="https://github.com/lnfiniware/kairo/releases" class="btn-primary">Download</a>
+                        <a href="https://github.com/lnfiniware/kairo" class="btn-outline">Source code</a>
                     </div>
                 </div>
             </div>
 
-            <!-- CORE UTILITIES (3 CARDS) -->
+            <!-- Feature cards -->
             <div class="cards-section">
-                <div class="glass-card">
-                    <div class="card-glow-edge"></div>
-                    <div class="card-icon-wrap">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <line x1="2" y1="12" x2="22" y2="12"></line>
-                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-                        </svg>
-                    </div>
-                    <h3>Read Any Database</h3>
-                    <p>Instantly parse and translate any SQLite file or PostgreSQL schema into a clear, formatted human-readable representation.</p>
-                    <div class="terminal-mini">
-                        <span class="prompt">$</span> kairo read data/kairo.db
-                    </div>
+                <div class="card">
+                    <h3>Read any database</h3>
+                    <p>Point kairo at any .db file or PostgreSQL connection string. Get a structured, readable breakdown of every table and its contents.</p>
+                    <code>kairo read myapp.db</code>
                 </div>
-                <div class="glass-card">
-                    <div class="card-glow-edge"></div>
-                    <div class="card-icon-wrap">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
-                            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-                            <polyline points="2 17 12 22 22 17"></polyline>
-                            <polyline points="2 12 12 17 22 12"></polyline>
-                        </svg>
-                    </div>
-                    <h3>Plain-Text Schemas</h3>
-                    <p>Define database structures without SQL clutter or heavy configs. Simply declare tables and columns inside minimal `.kairo` files.</p>
-                    <div class="terminal-mini">
-                        <span class="prompt">$</span> kairo create users
-                    </div>
+                <div class="card">
+                    <h3>Schema in plain text</h3>
+                    <p>Define your tables in .kairo files. No SQL boilerplate, no config files. Write what you mean, apply it to your database.</p>
+                    <code>kairo create users</code>
                 </div>
-                <div class="glass-card">
-                    <div class="card-glow-edge"></div>
-                    <div class="card-icon-wrap">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
-                            <line x1="22" y1="2" x2="11" y2="13"></line>
-                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                        </svg>
-                    </div>
-                    <h3>Natural CLI Queries</h3>
-                    <p>Inspect records rapidly from your shell using simplified, conversational query strings or fallback to robust raw SQL expressions.</p>
-                    <div class="terminal-mini">
-                        <span class="prompt">$</span> kairo query "from users"
-                    </div>
+                <div class="card">
+                    <h3>Query from your shell</h3>
+                    <p>Run queries directly from the terminal. Use simplified syntax or standard SQL. Both work out of the box.</p>
+                    <code>kairo query "from users"</code>
                 </div>
             </div>
 
-            <!-- INTERACTIVE SCHEMA & MIGRATION REFERENCE -->
-            <div class="interactive-split-section">
-                <div class="section-header-centered">
-                    <h2>Schema Compilation & Migration</h2>
-                    <p class="section-subtitle">Declare once, compile anywhere. KairoDB compiles declarative text files into optimized, standard schemas.</p>
-                </div>
-                
+            <!-- Schema split view -->
+            <div class="split-section">
+                <h2>Schema compilation</h2>
+                <p class="section-desc">Write a .kairo file, run one command, and your database is ready. What you write is what you get.</p>
                 <div class="split-layout">
-                    <!-- Left: .kairo Schema -->
                     <div class="terminal-window">
                         <div class="terminal-header">
-                            <div class="window-buttons">
-                                <span class="dot red"></span>
-                                <span class="dot yellow"></span>
-                                <span class="dot green"></span>
-                            </div>
                             <span class="window-title">schema/users.kairo</span>
                         </div>
-                        <div class="terminal-body font-mono">
-<pre><code><span class="keyword">table</span> <span class="entity">users</span> {
-  name: <span class="type">string</span>
-  age: <span class="type">int</span>
-  active: <span class="type">bool</span> = <span class="val">true</span>
+                        <div class="terminal-body">
+<pre><code><span class="kw">table</span> <span class="ent">users</span> {
+  name: <span class="tp">string</span>
+  age: <span class="tp">int</span>
+  active: <span class="tp">bool</span> = <span class="vl">true</span>
 }
 
-<span class="keyword">table</span> <span class="entity">posts</span> {
-  title: <span class="type">string</span>
-  body: <span class="type">string</span>
-  user_id: <span class="type">int</span> [required]
+<span class="kw">table</span> <span class="ent">posts</span> {
+  title: <span class="tp">string</span>
+  body: <span class="tp">string</span>
+  user_id: <span class="tp">int</span> [required]
 }</code></pre>
                         </div>
                     </div>
-
-                    <!-- Flow SVG Connection -->
-                    <div class="middle-flow-svg">
-                        <svg viewBox="0 0 80 120" width="80" height="120" fill="none">
-                            <path class="draw-line" d="M 10,60 Q 40,60 70,60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow)" />
-                            <circle cx="10" cy="60" r="4" fill="var(--accent)" />
-                            <circle cx="70" cy="60" r="4" fill="var(--accent)" />
-                            <!-- Glow path -->
-                            <path d="M 10,60 Q 40,60 70,60" stroke="rgba(56, 189, 248, 0.4)" stroke-width="6" style="filter: blur(4px);" />
-                            <defs>
-                                <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                                    <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--accent)"/>
-                                </marker>
-                            </defs>
-                        </svg>
-                    </div>
-
-                    <!-- Right: CLI SQLite/PostgreSQL Outputs -->
-                    <div class="terminal-window glow-accent">
+                    <div class="terminal-window">
                         <div class="terminal-header">
-                            <div class="window-buttons">
-                                <span class="dot red"></span>
-                                <span class="dot yellow"></span>
-                                <span class="dot green"></span>
-                            </div>
-                            <span class="window-title">kairo status</span>
+                            <span class="window-title">terminal</span>
                         </div>
-                        <div class="terminal-body font-mono">
-<pre><code><span class="comment"># Migrating schema to data/kairo.db</span>
-<span class="success">✔ Schema successfully applied to SQLite!</span>
+                        <div class="terminal-body">
+<pre><code><span class="cm"># Apply schema</span>
+<span class="pr">$</span> kairo create users
+<span class="ok">Schema applied to data/kairo.db</span>
 
-<span class="keyword">kairo tables</span>
-----------------------------------------
-- <span class="entity">users</span> (3 columns, 12 rows)
-- <span class="entity">posts</span> (3 columns, 45 rows)
+<span class="pr">$</span> kairo tables
+  users (3 columns, 12 rows)
+  posts (3 columns, 45 rows)
 
-<span class="keyword">kairo read data/kairo.db</span>
-----------------------------------------
-<span class="keyword">table</span> <span class="entity">users</span> {
-  id: <span class="type">int</span>
-  name: <span class="type">string</span>
-  age: <span class="type">int</span>
-  active: <span class="type">bool</span>
+<span class="pr">$</span> kairo read data/kairo.db
+<span class="kw">table</span> <span class="ent">users</span> {
+  id: <span class="tp">int</span>
+  name: <span class="tp">string</span>
+  age: <span class="tp">int</span>
+  active: <span class="tp">bool</span>
 }</code></pre>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- POSTGRESQL & SQLITE CONNECTION SHOWCASE -->
+            <!-- Showcase with original screenshots -->
             <div class="showcase">
                 <div class="showcase-item">
                     <div class="showcase-text">
-                        <div class="tech-badge">Engine v0.4.0 Feature</div>
-                        <h2>Seamless Multi-Database Connectivity</h2>
-                        <p>KairoDB integrates natively with both standard **SQLite files** and live **PostgreSQL instances**. Point the reader at a raw file or supply a database server connection string—Kairo translates rows and metadata into clean, structured schemas on the fly.</p>
-                        
-                        <div class="spec-grid">
-                            <div class="spec-item">
-                                <span class="spec-label">SQLite Engine</span>
-                                <span class="spec-val">Local-first, direct file inspection</span>
-                            </div>
-                            <div class="spec-item">
-                                <span class="spec-label">PostgreSQL</span>
-                                <span class="spec-val">Encrypted TLS strings, custom port mappings</span>
-                            </div>
-                        </div>
+                        <h2>Built for the terminal</h2>
+                        <p>KairoDB lives where you work. Open any terminal, type <code>kairo</code>, and you get a clean overview of every command available. No GUI needed. No browser. Just your keyboard and your data.</p>
+                        <p>The interface is designed to be readable at a glance. Blue borders frame the output, commands are listed clearly, and everything fits in a single screen.</p>
                     </div>
-                    <div class="showcase-img-wrap">
-                        <div class="terminal-window">
-                            <div class="terminal-header">
-                                <div class="window-buttons">
-                                    <span class="dot red"></span>
-                                    <span class="dot yellow"></span>
-                                    <span class="dot green"></span>
-                                </div>
-                                <span class="window-title">bash -- kairo read postgresql</span>
-                            </div>
-                            <div class="terminal-body font-mono">
-                                <span class="prompt">$</span> kairo read postgres://postgres:sec@db.domain.com:5432/production<br>
-                                <span class="text-dim">Translating live PostgreSQL schema at db.domain.com...</span><br>
-                                ----------------------------------------------------<br>
-                                <span class="keyword">table</span> <span class="entity">orders</span> {<br>
-                                &nbsp;&nbsp;id: <span class="type">int</span> [required]<br>
-                                &nbsp;&nbsp;total: <span class="type">float</span> [required]<br>
-                                &nbsp;&nbsp;created_at: <span class="type">timestamp</span><br>
-                                }<br>
-                                <span class="success">-- 14,230 active rows translated</span>
-                            </div>
-                        </div>
+                    <div class="showcase-img">
+                        <img src="terminal-screenshot.png" alt="KairoDB running in Windows Command Prompt">
+                    </div>
+                </div>
+
+                <div class="showcase-item reverse">
+                    <div class="showcase-text">
+                        <h2>Works inside your editor</h2>
+                        <p>Run KairoDB directly from the VS Code integrated terminal. Write your .kairo schemas in one tab, apply them in another. Everything stays in one place.</p>
+                        <p>No context switching. No separate database GUI. Your schema files, your code, and your database commands all live together in the same workspace.</p>
+                    </div>
+                    <div class="showcase-img">
+                        <img src="vscode-screenshot.png" alt="KairoDB running inside VS Code terminal">
                     </div>
                 </div>
             </div>
 
-            <!-- BENCHMARKS SECTION -->
+            <!-- Multi-database -->
+            <div class="multi-db-section">
+                <h2>SQLite and PostgreSQL</h2>
+                <p class="section-desc">Since v0.4.0, the <code>read</code> and <code>export</code> commands work with both local SQLite files and remote PostgreSQL instances. Kairo figures out which one you mean based on the path you give it.</p>
+                <div class="terminal-window wide">
+                    <div class="terminal-header">
+                        <span class="window-title">terminal</span>
+                    </div>
+                    <div class="terminal-body">
+<pre><code><span class="pr">$</span> kairo read postgres://user:pass@localhost:5432/production
+<span class="cm">Connecting to PostgreSQL at localhost...</span>
+
+<span class="kw">table</span> <span class="ent">orders</span> {
+  id: <span class="tp">int</span> [required]
+  total: <span class="tp">float</span> [required]
+  created_at: <span class="tp">timestamp</span>
+}
+
+<span class="ok">-- 14,230 rows</span></code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Benchmarks -->
             <div class="benchmarks-section">
-                <div class="section-header-centered">
-                    <div class="tech-badge">Performance Dashboard</div>
-                    <h2>Zero-Boilerplate Runtime Speed</h2>
-                    <p class="section-subtitle">Rust-engineered binaries run barebone, eliminating the JavaScript/TypeScript transpiler cold start associated with bloated client-side ORM frameworks.</p>
-                </div>
-
+                <h2>Performance</h2>
+                <p class="section-desc">KairoDB is a compiled Rust binary. It starts instantly and uses almost no memory compared to JavaScript-based alternatives.</p>
                 <div class="benchmarks-grid">
-                    <!-- Metric 1: Connection & Translation Init -->
-                    <div class="benchmark-card">
-                        <h4>Cold Start Initialization Latency</h4>
-                        <p class="bench-sub">Time required to initialize schema parsing and link storage handlers (lower is better).</p>
-                        
-                        <div class="bar-group">
-                            <div class="bar-label"><span>KairoDB (Bare Rust)</span> <strong class="color-kairo">1.2 ms</strong></div>
-                            <div class="bar-track"><div class="benchmark-bar bg-kairo" data-value="1.2"></div></div>
-                        </div>
-                        <div class="bar-group">
-                            <div class="bar-label"><span>Prisma Client (NodeJS)</span> <strong>84.0 ms</strong></div>
-                            <div class="bar-track"><div class="benchmark-bar bg-other" data-value="84"></div></div>
-                        </div>
-                        <div class="bar-group">
-                            <div class="bar-label"><span>TypeORM (TypeScript)</span> <strong>120.0 ms</strong></div>
-                            <div class="bar-track"><div class="benchmark-bar bg-other-alt" data-value="100"></div></div>
-                        </div>
+                    <div class="bench-card">
+                        <h4>Cold start</h4>
+                        <div class="bar-row"><span class="bar-name">KairoDB</span><div class="bar-track"><div class="benchmark-bar bar-kairo" data-value="1.2"></div></div><span class="bar-val accent">1.2 ms</span></div>
+                        <div class="bar-row"><span class="bar-name">Prisma</span><div class="bar-track"><div class="benchmark-bar bar-grey" data-value="84"></div></div><span class="bar-val">84 ms</span></div>
+                        <div class="bar-row"><span class="bar-name">TypeORM</span><div class="bar-track"><div class="benchmark-bar bar-grey" data-value="100"></div></div><span class="bar-val">120 ms</span></div>
                     </div>
-
-                    <!-- Metric 2: Memory Footprint -->
-                    <div class="benchmark-card">
-                        <h4>Runtime RAM Usage (Memory Footprint)</h4>
-                        <p class="bench-sub">Average memory footprint during full database schema read execution (lower is better).</p>
-                        
-                        <div class="bar-group">
-                            <div class="bar-label"><span>KairoDB</span> <strong class="color-kairo">4.8 MB</strong></div>
-                            <div class="bar-track"><div class="benchmark-bar bg-kairo" data-value="4.8"></div></div>
-                        </div>
-                        <div class="bar-group">
-                            <div class="bar-label"><span>TypeORM Engine</span> <strong>78.0 MB</strong></div>
-                            <div class="bar-track"><div class="benchmark-bar bg-other-alt" data-value="78"></div></div>
-                        </div>
-                        <div class="bar-group">
-                            <div class="bar-label"><span>Prisma Client Container</span> <strong>110.0 MB</strong></div>
-                            <div class="bar-track"><div class="benchmark-bar bg-other" data-value="100"></div></div>
-                        </div>
+                    <div class="bench-card">
+                        <h4>Memory usage</h4>
+                        <div class="bar-row"><span class="bar-name">KairoDB</span><div class="bar-track"><div class="benchmark-bar bar-kairo" data-value="4.8"></div></div><span class="bar-val accent">4.8 MB</span></div>
+                        <div class="bar-row"><span class="bar-name">TypeORM</span><div class="bar-track"><div class="benchmark-bar bar-grey" data-value="71"></div></div><span class="bar-val">78 MB</span></div>
+                        <div class="bar-row"><span class="bar-name">Prisma</span><div class="bar-track"><div class="benchmark-bar bar-grey" data-value="100"></div></div><span class="bar-val">110 MB</span></div>
                     </div>
                 </div>
             </div>
 
-            <!-- AI & LLM FRIENDLY FEATURES -->
-            <div class="ai-friendly-section">
-                <div class="ai-card">
-                    <div class="ai-glow-pulse"></div>
-                    <div class="ai-content">
-                        <div class="ai-badge">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
-                            </svg>
-                            AI & LLM Optimized Context
-                        </div>
-                        <h2>Engineered for AI Code Assistants & LLMs</h2>
-                        <p>Typical SQL definitions, migrations, and heavy ORM codebases bloat prompt context windows, causing coding assistants (such as Claude, ChatGPT, and local models) to lose accuracy and hallucinate imports. KairoDB is meticulously structured for AI agent workspaces.</p>
-                        
-                        <div class="ai-pillars">
-                            <div class="pillar">
-                                <h5>Compact Token Overhead</h5>
-                                <p>Plain-text Kairo schemas use up to 90% fewer tokens than standard migrations, leaving more memory for core application instructions.</p>
-                            </div>
-                            <div class="pillar">
-                                <h5>100% Deterministic CodeGen</h5>
-                                <p>Kairo's zero-boilerplate declarative syntax ensures that LLMs generate correct, bug-free schema configurations without requiring additional TypeScript or SQL typings.</p>
-                            </div>
-                            <div class="pillar">
-                                <h5>Agent-Native Migrations</h5>
-                                <p>Automated shell executions like `kairo create` and human-readable DB exports let AI agents interact with databases seamlessly inside autonomous development loops.</p>
-                            </div>
-                        </div>
+            <!-- AI section -->
+            <div class="ai-section">
+                <h2>Works well with AI tools</h2>
+                <p class="section-desc">Kairo schemas are compact, predictable, and easy for language models to read and generate. If you use AI coding assistants, Kairo makes their job easier.</p>
+                <div class="ai-grid">
+                    <div class="ai-item">
+                        <h4>Small token footprint</h4>
+                        <p>A .kairo schema uses a fraction of the tokens compared to raw SQL migrations. That means more room in the context window for your actual code.</p>
+                    </div>
+                    <div class="ai-item">
+                        <h4>Predictable output</h4>
+                        <p>The syntax is simple enough that LLMs generate correct schemas on the first try. No guessing at ORM imports or TypeScript decorators.</p>
+                    </div>
+                    <div class="ai-item">
+                        <h4>CLI-friendly automation</h4>
+                        <p>Commands like <code>kairo create</code> and <code>kairo read</code> are straightforward for AI agents to call in automated workflows.</p>
                     </div>
                 </div>
             </div>
 
-            <!-- WHY KAIRODB? -->
-            <div class="why-kairo-section">
-                <div class="section-header-centered">
-                    <h2>Engineered for Minimalists</h2>
-                    <p class="section-subtitle">Ditch bloated frameworks. Manage data with high-performance local structures.</p>
-                </div>
+            <!-- Why -->
+            <div class="why-section">
+                <h2>Why KairoDB</h2>
                 <div class="why-grid">
                     <div class="why-item">
-                        <h4>Zero Compilation Bloat</h4>
-                        <p>No heavy docker databases needed. Create, seed, and inspect complete schemas instantly via SQLite or remote PG endpoints.</p>
+                        <h4>No setup overhead</h4>
+                        <p>No Docker, no heavy database servers for local work. Create and inspect databases instantly with SQLite, or connect to a remote PostgreSQL when you need to.</p>
                     </div>
                     <div class="why-item">
-                        <h4>Portable Global Tool</h4>
-                        <p>Written in native, optimized Rust. Ships as a single standalone executable. Runs instantly across Windows, macOS, and Linux without Rust runtimes.</p>
+                        <h4>Single binary</h4>
+                        <p>Written in Rust. Ships as one executable. Works on Windows, macOS, and Linux without installing Rust or any other runtime.</p>
                     </div>
                     <div class="why-item">
-                        <h4>Intuitive Local-First Flows</h4>
-                        <p>Human-readable syntax lets you inspect structures and rows as plain English objects, eliminating heavy external GUI dashboards.</p>
+                        <h4>Plain text everything</h4>
+                        <p>Schemas, queries, and database output are all human-readable text. No need for a GUI database browser to understand what is in your data.</p>
                     </div>
                 </div>
             </div>
 
-            <!-- GET STARTED / INSTALL GUIDE -->
+            <!-- Install -->
             <div class="install-section">
-                <h2>Zero-Dependency Installation</h2>
+                <h2>Get started</h2>
                 <div class="install-steps">
-                    <div class="install-card-step">
-                        <span class="step-badge">01</span>
-                        <div class="step-card-content">
-                            <h4>Download Standalone Binaries</h4>
-                            <p>Download the native, pre-compiled binary matching your architecture. No Cargo or Rust tools required.</p>
-                            <a href="https://github.com/lnfiniware/kairo/releases" class="btn-step-action">Releases Page</a>
+                    <div class="install-step">
+                        <span class="step-num">1</span>
+                        <div>
+                            <p class="step-title">Download the binary</p>
+                            <p class="step-desc">Grab the latest release for your OS from <a href="https://github.com/lnfiniware/kairo/releases">GitHub Releases</a>. No Rust required.</p>
                         </div>
                     </div>
-                    <div class="install-card-step">
-                        <span class="step-badge">02</span>
-                        <div class="step-card-content">
-                            <h4>Initialize Workspace</h4>
-                            <p>Run the local initialization command inside your workspace to provision schemas and state databases.</p>
-                            <div class="cli-wrap">
-                                <code>kairo init</code>
-                                <button class="copy-btn" id="copy-init" onclick="copyToClipboard('kairo init', 'copy-init')">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                                    Copy
-                                </button>
-                            </div>
+                    <div class="install-step">
+                        <span class="step-num">2</span>
+                        <div>
+                            <p class="step-title">Initialize a project</p>
+                            <p class="step-desc"><code>kairo init</code></p>
                         </div>
                     </div>
-                    <div class="install-card-step">
-                        <span class="step-badge">03</span>
-                        <div class="step-card-content">
-                            <h4>Migrate Declarative Schemas</h4>
-                            <p>Write your tables inside `schema/` and trigger migration to build your databases instantly.</p>
-                            <div class="cli-wrap">
-                                <code>kairo create users</code>
-                                <button class="copy-btn" id="copy-create" onclick="copyToClipboard('kairo create users', 'copy-create')">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                                    Copy
-                                </button>
-                            </div>
+                    <div class="install-step">
+                        <span class="step-num">3</span>
+                        <div>
+                            <p class="step-title">Write a schema and apply it</p>
+                            <p class="step-desc"><code>kairo create users</code></p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- DOCUMENTATION TAB -->
-        <section id="docs-tab" class="tab-content animate-fade">
-            <div class="portal">
-                <div class="portal-search">
-                    <input type="text" id="portal-search-input" placeholder="Search documentation..." oninput="handleSearch(this.value)">
-                </div>
-                <div class="portal-layout">
-                    <aside class="portal-sidebar">
-                        <p class="sidebar-heading">Documentation</p>
-                        <ul id="docs-menu">
-                            <li class="sidebar-item active" onclick="loadDoc('Getting-Started')">Getting Started</li>
-                            <li class="sidebar-item" onclick="loadDoc('Commands')">Commands</li>
-                            <li class="sidebar-item" onclick="loadDoc('Schemas')">Schemas</li>
-                            <li class="sidebar-item" onclick="loadDoc('Queries')">Queries</li>
-                            <li class="sidebar-item" onclick="loadDoc('Architecture')">Architecture</li>
-                            <li class="sidebar-item" onclick="loadDoc('Philosophy')">Philosophy</li>
-                        </ul>
-                    </aside>
-                    <article class="portal-body markdown-body" id="docs-body">
-                        <p class="portal-placeholder">Select a topic from the sidebar.</p>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <!-- WIKI TAB -->
-        <section id="wiki-tab" class="tab-content animate-fade">
+        <!-- WIKI -->
+        <section id="wiki-tab" class="tab-content">
             <div class="portal">
                 <div class="portal-search">
                     <input type="text" placeholder="Search wiki..." oninput="handleWikiSearch(this.value)">
@@ -455,7 +272,7 @@
                     <aside class="portal-sidebar">
                         <p class="sidebar-heading">Wiki</p>
                         <ul id="wiki-menu">
-                            <li class="sidebar-item active" onclick="loadWiki('Home')">Home</li>
+                            <li class="sidebar-item" onclick="loadWiki('Home')">Home</li>
                             <li class="sidebar-item" onclick="loadWiki('Getting-Started')">Getting Started</li>
                             <li class="sidebar-item" onclick="loadWiki('Commands')">Commands</li>
                             <li class="sidebar-item" onclick="loadWiki('Schemas')">Schemas</li>
@@ -464,7 +281,7 @@
                             <li class="sidebar-item" onclick="loadWiki('Architecture')">Architecture</li>
                         </ul>
                     </aside>
-                    <article class="portal-body markdown-body" id="wiki-body">
+                    <article class="portal-body" id="wiki-body">
                         <p class="portal-placeholder">Select a page from the sidebar.</p>
                     </article>
                 </div>
@@ -479,7 +296,7 @@
             </div>
             <div class="footer-right">
                 <a href="https://github.com/lnfiniware/kairo" target="_blank">GitHub</a>
-                <a href="#" onclick="showTab('docs')">Docs</a>
+                <a href="#" onclick="showTab('wiki')">Wiki</a>
                 <span class="footer-copy">GNU GPL 3.0</span>
             </div>
         </div>
