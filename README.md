@@ -4,18 +4,38 @@ Human-readable databases. Minimal. Fast. Local-first.
 
 ## What is it
 
-KairoDB is a terminal tool that lets you define database schemas in plain text, apply them to SQLite or PostgreSQL, and read any existing database file in a human-readable format. No ORM. No bloat. Just a clean interface between you and your data.
+KairoDB is a terminal tool that lets you define database schemas in plain text, apply them to SQLite or PostgreSQL, and read any existing database in a human-readable format. No ORM. No bloat. Just a clean interface between you and your data.
 
 ## Install
 
-Download the binary for your OS from the [Releases](https://github.com/lnfiniware/kairo/releases) page. No Rust required.
+### Download (no Rust required)
 
-Or build from source:
+Download the binary for your OS from the [Releases](https://github.com/lnfiniware/kairo/releases) page.
+
+After downloading, use the included installer script to set it up globally:
+
+**Windows (PowerShell)**
+```
+.\install.ps1
+```
+
+**macOS / Linux**
+```
+chmod +x install.sh
+./install.sh
+```
+
+Both scripts will place `kairo` in your PATH so you can run it from any directory.
+
+### Build from source
+
 ```
 git clone https://github.com/lnfiniware/kairo.git
 cd kairo
-cargo install --path .
+cargo build --release
 ```
+
+Then run the installer script above, or manually copy `target/release/kairo` to a directory in your PATH.
 
 ## Usage
 
@@ -23,30 +43,20 @@ cargo install --path .
 kairo init               set up a new project
 kairo create <name>      apply a .kairo schema to your database
 kairo query <sql>        run a query (supports natural syntax)
-kairo read <file.db>     inspect any database file
+kairo read <file.db>     inspect any SQLite database file
+kairo read <pg_url>      inspect a PostgreSQL database
 kairo export <file.db>   convert a database to .kairo schema format
 kairo tables             list all tables
 kairo status             show project info
 ```
 
-## Schema syntax
-
-```
-table users {
-  name: string
-  age: int
-  active: bool = true
-}
-```
-
-Save as `schema/users.kairo`, then run `kairo create users`.
-
 ## Read any database
 
+SQLite:
 ```
 $ kairo read myapp.db
 
-Database: myapp.db
+Database (SQLite): myapp.db
 ----------------------------------------
 Tables: users, posts
 
@@ -61,6 +71,37 @@ table users {
   | id: 2 | name: bob | email: bob@example.com
   ...
 ```
+
+PostgreSQL:
+```
+$ kairo read postgres://user:pass@localhost/mydb
+
+Database (PostgreSQL): postgres://user:pass@localhost/mydb
+----------------------------------------
+Tables: users, orders
+
+table users {
+  id: int [required]
+  name: string [required]
+  email: string
+}
+
+  -- 1200 rows
+  | id: 1 | name: alice | email: alice@example.com
+  ...
+```
+
+## Schema syntax
+
+```
+table users {
+  name: string
+  age: int
+  active: bool = true
+}
+```
+
+Save as `schema/users.kairo`, then run `kairo create users`.
 
 ## Website
 

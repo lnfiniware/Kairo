@@ -5,6 +5,9 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  contents: write
+
 jobs:
   build:
     name: Build - ${{ matrix.os }}
@@ -24,11 +27,62 @@ jobs:
             asset_name: kairo-macos
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
       - name: Build
         run: cargo build --release --verbose
+      - name: Rename binary (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        run: cp target/release/kairo target/release/kairo-linux
+      - name: Rename binary (macOS)
+        if: matrix.os == 'macos-latest'
+        run: cp target/release/kairo target/release/kairo-macos
+      - name: Rename binary (Windows)
+        if: matrix.os == 'windows-latest'
+        run: cp target/release/kairo.exe target/release/kairo-windows.exe
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.artifact_name }}
-          path: target/release/kairo${{ matrix.os == 'windows-latest' && '.exe' || '' }}
+          path: target/release/${{ matrix.asset_name }}
+
+  release:
+    name: Create Release
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            artifacts/kairo-linux/kairo-linux
+            artifacts/kairo-windows.exe/kairo-windows.exe
+            artifacts/kairo-macos/kairo-macos
+          generate_release_notes: false
+          body: |
+            ## KairoDB ${{ github.ref_name }}
+
+            ### What is new
+
+            **Native multi-database support**
+            The `read` and `export` commands now work with both SQLite files and PostgreSQL connection strings out of the box.
+
+            **Elegant error handling**
+            Passing a non-database file (like a .kairo schema or a config file) no longer produces raw stack traces. Kairo now prints a clean, formatted error message explaining what went wrong and what to do instead.
+
+            **Cross-platform standalone installation**
+            New `install.ps1` (Windows) and `install.sh` (macOS/Linux) scripts allow installing KairoDB globally without Rust or Cargo. Download the binary, run the installer, and you are ready to go.
+
+            ### Installation
+
+            Download the binary for your platform below, then run the included installer script.
+
+            - **Windows**: `kairo-windows.exe` -- run `.\install.ps1`
+            - **macOS**: `kairo-macos` -- run `./install.sh`
+            - **Linux**: `kairo-linux` -- run `./install.sh`
