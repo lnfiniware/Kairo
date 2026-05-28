@@ -11,7 +11,7 @@ use crate::adapters::postgres::PostgresAdapter;
 
 #[derive(Parser)]
 #[command(name = "kairo")]
-#[command(version = "0.3.2")]
+#[command(version = "0.4.0")]
 #[command(about = "Human-readable databases. Minimal. Fast. Local-first.")]
 struct Cli {
     #[command(subcommand)]
@@ -62,7 +62,12 @@ async fn main() {
     let cli = Cli::parse();
 
     if let Err(e) = run_cli(cli).await {
-        ui::print_error(&e.to_string());
+        let err_str = e.to_string();
+        if err_str.contains("code: 26") || err_str.contains("file is not a database") {
+            ui::print_error("the file is not a valid database format or is corrupted.");
+        } else {
+            ui::print_error(&err_str);
+        }
         std::process::exit(1);
     }
 }
@@ -126,22 +131,25 @@ async fn run_cli(cli: Cli) -> Result<()> {
         }
 
         Some(Commands::Read { file }) => {
-            let path = std::path::Path::new(&file);
-            if path.extension().map_or(false, |ext| ext == "kairo") {
-                return Err(anyhow!(
-                    "file '{}' is a .kairo schema file. 'kairo read' is used to inspect SQLite database files (e.g., 'data/kairo.db').",
-                    file
-                ));
-            }
-
-            if !path.exists() {
-                let mut err_msg = format!("database file '{}' not found.", file);
-                if file == "kairo.db" && std::path::Path::new("data/kairo.db").exists() {
-                    err_msg.push_str(" Did you mean 'data/kairo.db'?");
+            let is_postgres = file.starts_with("postgres://") || file.starts_with("postgresql://");
+            if !is_postgres {
+                let path = std::path::Path::new(&file);
+                if path.extension().map_or(false, |ext| ext == "kairo") {
+                    return Err(anyhow!(
+                        "file '{}' is a .kairo schema file. 'kairo read' is used to inspect SQLite database files (e.g., 'data/kairo.db').",
+                        file
+                    ));
                 }
-                return Err(anyhow!(err_msg));
-            } else if !path.is_file() {
-                return Err(anyhow!("'{}' is not a file.", file));
+
+                if !path.exists() {
+                    let mut err_msg = format!("database file '{}' not found.", file);
+                    if file == "kairo.db" && std::path::Path::new("data/kairo.db").exists() {
+                        err_msg.push_str(" Did you mean 'data/kairo.db'?");
+                    }
+                    return Err(anyhow!(err_msg));
+                } else if !path.is_file() {
+                    return Err(anyhow!("'{}' is not a file.", file));
+                }
             }
 
             let output = core::reader::read_database(&file).await?;
@@ -149,22 +157,25 @@ async fn run_cli(cli: Cli) -> Result<()> {
         }
 
         Some(Commands::Export { file, output }) => {
-            let path = std::path::Path::new(&file);
-            if path.extension().map_or(false, |ext| ext == "kairo") {
-                return Err(anyhow!(
-                    "file '{}' is a .kairo schema file. 'kairo export' is used to convert SQLite database files (e.g., 'data/kairo.db') to schema format.",
-                    file
-                ));
-            }
-
-            if !path.exists() {
-                let mut err_msg = format!("database file '{}' not found.", file);
-                if file == "kairo.db" && std::path::Path::new("data/kairo.db").exists() {
-                    err_msg.push_str(" Did you mean 'data/kairo.db'?");
+            let is_postgres = file.starts_with("postgres://") || file.starts_with("postgresql://");
+            if !is_postgres {
+                let path = std::path::Path::new(&file);
+                if path.extension().map_or(false, |ext| ext == "kairo") {
+                    return Err(anyhow!(
+                        "file '{}' is a .kairo schema file. 'kairo export' is used to convert SQLite database files (e.g., 'data/kairo.db') to schema format.",
+                        file
+                    ));
                 }
-                return Err(anyhow!(err_msg));
-            } else if !path.is_file() {
-                return Err(anyhow!("'{}' is not a file.", file));
+
+                if !path.exists() {
+                    let mut err_msg = format!("database file '{}' not found.", file);
+                    if file == "kairo.db" && std::path::Path::new("data/kairo.db").exists() {
+                        err_msg.push_str(" Did you mean 'data/kairo.db'?");
+                    }
+                    return Err(anyhow!(err_msg));
+                } else if !path.is_file() {
+                    return Err(anyhow!("'{}' is not a file.", file));
+                }
             }
 
             let schema = core::reader::export_schema(&file).await?;
@@ -196,7 +207,7 @@ async fn run_cli(cli: Cli) -> Result<()> {
         }
 
         Some(Commands::Status) => {
-            ui::print_header("kairo v0.3.2");
+            ui::print_header("kairo v0.4.0");
 
             match config::load_config() {
                 Ok(cfg) => {
