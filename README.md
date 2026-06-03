@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/lnfiniware/kairo/main/KairoDB-logo.png" width="250">
+[<img src="https://raw.githubusercontent.com/lnfiniware/kairo/main/KairoDB-logo.png" width="250">](https://raw.githubusercontent.com/lnfiniware/Kairo/main/KairoDB-logo.png)
 
 # KairoDB
 
