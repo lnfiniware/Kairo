@@ -111,4 +111,4 @@ https://kairo.infiniware.bid
 
 GNU GPL 3.0
 
-MADE BY INFINIWARE
+Made by fut0r (Zyad Mohamed)
