@@ -1,3 +1,5 @@
+![Logo](KairoDB-logo.png)
+
 # KairoDB
 
 Human-readable databases. Minimal. Fast. Local-first.
