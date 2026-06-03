@@ -1,5 +1,3 @@
-[<img src="https://raw.githubusercontent.com/lnfiniware/kairo/main/KairoDB-logo.png" width="250">](https://raw.githubusercontent.com/lnfiniware/Kairo/main/KairoDB-logo.png)
-
 # KairoDB
 
 Human-readable databases. Minimal. Fast. Local-first.
